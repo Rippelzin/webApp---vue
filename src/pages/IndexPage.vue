@@ -1,6 +1,7 @@
 <template>
   <q-page class="flex flex-center">
-    <TodoCard :list="list" :teste="teste" />
+    <!--<TodoCard :list="list" :teste="teste" />-->
+    <PostCard :list="listPosts" />
   </q-page>
 </template>
 
@@ -9,6 +10,7 @@
 import { defineComponent } from "vue";
 import axios from "axios";
 import TodoCard from "src/components/Todo-Card.vue";
+import PostCard from "src/components/Post-Card.vue";
 
 export default defineComponent({
   name: "IndexPage",
@@ -16,22 +18,30 @@ export default defineComponent({
   data() {
     return {
       list: [],
-      teste: "teste",
+      listPosts: [],
     };
   },
   components: {
     TodoCard,
+    PostCard,
   },
   mounted() {
-    this.fetchData();
+    this.fetchDataTodos();
+    this.fetchDataPosts();
     console.log("aa");
     console.log(this.list);
   },
   methods: {
-    fetchData() {
+    fetchDataTodos() {
       axios
         .get("https://jsonplaceholder.typicode.com/todos")
         .then((response) => (this.list = response.data));
+    },
+
+    fetchDataPosts() {
+      axios
+        .get("https://jsonplaceholder.typicode.com/posts")
+        .then((response) => (this.listPosts = response.data));
     },
   },
 });
